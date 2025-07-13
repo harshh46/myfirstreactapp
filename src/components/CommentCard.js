@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const CommentCard = ({ user, comment }) => {
+  const [like, setLike] = useState(0);
   return (
     <div>
       <h2>{user}</h2>
-      <p>{comment}</p>
-      <button>❤️</button>
+      <p>
+        {comment} ❤️:{like}
+      </p>
+      <button onClick={() => setLike(like + 1)}>❤️</button>
     </div>
   );
 };

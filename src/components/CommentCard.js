@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const CommentCard = ({ user, comment }) => {
   const [like, setLike] = useState(0);
   return (
-    <div>
+    <div className="comment-card">
       <h2>{user}</h2>
       <p>
         {comment} ❤️:{like}

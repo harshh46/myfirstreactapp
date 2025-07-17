@@ -4,11 +4,16 @@ import CommentCard from "./CommentCard";
 const NewComment = ({ comments }) => {
   const [newComment, setNewComment] = useState("");
   const [userName, setUserName] = useState("");
+  const [allComments, setAllComments] = useState(comments);
 
   const handlePost = (e) => {
     e.preventDefault();
     if (userName.trim() && newComment.trim()) {
-      alert(`Comment by ${userName}:  "${newComment}"`);
+      const newEntry = {
+        user: userName,
+        comment: newComment,
+      };
+      setAllComments([newEntry, ...allComments]);
       setNewComment("");
       setUserName("");
     }
@@ -35,8 +40,8 @@ const NewComment = ({ comments }) => {
       </form>
 
       <div className="comment-list">
-        <h3>Previous Comments</h3>
-        {comments.map((c, index) => (
+        <h3>All Comments</h3>
+        {allComments.map((c, index) => (
           <CommentCard key={index} user={c.user} comment={c.comment} />
         ))}
       </div>

@@ -5,6 +5,7 @@ import "./index.css";
 // import Feedback from "./components/Feedback.js";
 // import CommentCard from "./components/CommentCard.js";
 import NewComment from "./components/NewComment.js";
+import DebateDetails from "./components/Debate.js";
 
 function App() {
   const demoComments = [
@@ -18,7 +19,8 @@ function App() {
       {/* <Counter />
       <Feedback /> */}
       {/* <CommentCard  /> */}
-      <NewComment comments={demoComments} />
+      {/* <NewComment comments={demoComments} /> */}
+      <DebateDetails />
     </div>
   );
 }

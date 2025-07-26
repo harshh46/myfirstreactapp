@@ -142,3 +142,69 @@ code {
 .comment-btn:hover {
   background-color: #e0e0ff;
 }
+
+/* .debate-post {
+  align-items: center;
+  background-color: #007bff;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 50px;
+} */
+.debate-post {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-family: Arial, sans-serif;
+  border: 1px solid black;
+}
+
+.debate-post h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Each form field wrapper */
+.debate-post div {
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.debate-post label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Dropdown & Textarea */
+.debate-post select,
+.debate-post textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Textarea height */
+.debate-post textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* Post Button */
+.debate-post button {
+  padding: 12px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.debate-post button:hover {
+  background-color: #45a049;
+}

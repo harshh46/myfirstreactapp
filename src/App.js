@@ -7,6 +7,8 @@ import "./index.css";
 import NewComment from "./components/NewComment.js";
 import DebateDetails from "./components/Debate.js";
 import DebatePost from "./components/DebatePost.js";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home.js";
 
 function App() {
   const demoComments = [
@@ -22,7 +24,12 @@ function App() {
       {/* <CommentCard  /> */}
       {/* <NewComment comments={demoComments} /> */}
       {/* <DebateDetails /> */}
-      <DebatePost />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/CreateDebate" element={<DebatePost />}></Route>
+        </Routes>
+      </Router>
     </div>
   );
 }

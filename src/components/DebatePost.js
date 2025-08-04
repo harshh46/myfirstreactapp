@@ -34,6 +34,25 @@ const DebatePost = () => {
     navigate("/");
   };
 
+  const post = [
+    { id: 1, topic: "Politics", opinion: "Democratic nation" },
+    { id: 2, topic: "Tech", opinion: "AI is modern tech." },
+    { id: 3, topic: "Sports", opinion: "Practice makes man perfect." },
+    { id: 4, topic: "Politics", opinion: "Freedom for all." },
+    { id: 5, topic: "Tech", opinion: "Robots are harmfull." },
+    { id: 6, topic: "Sports", opinion: "Football is well known sport" },
+  ];
+
+  const allPosts = [...post, ...posts];
+
+  const [selectTopic, setSelectedTopic] = useState("All");
+  const topics = ["All", "Politics", "Tech", "Sports"];
+
+  const filterSelect =
+    selectTopic === "All"
+      ? allPosts
+      : allPosts.filter((post) => post.topic === selectTopic);
+
   return (
     <>
       <button onClick={goToHomePage}>GoBack</button>
@@ -59,10 +78,24 @@ const DebatePost = () => {
           <button onClick={handlePost}>Post</button>
         </div>
         <h2>All posts</h2>
-        {posts.length === 0 ? (
+        <div>
+          <label>Select any topic:</label>
+          <select
+            value={selectTopic}
+            onChange={(e) => setSelectedTopic(e.target.value)}
+          >
+            {topics.map((topic) => (
+              <option key={topic} value={topic}>
+                {topic}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {filterSelect.length === 0 ? (
           <p>No posts yet</p>
         ) : (
-          posts.map((post) => (
+          filterSelect.map((post) => (
             <div key={post.id} className="post-list">
               <h3>{post.topic}</h3>
               <p>{post.opinion}</p>

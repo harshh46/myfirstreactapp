@@ -9,6 +9,7 @@ import DebateDetails from "./components/Debate.js";
 import DebatePost from "./components/DebatePost.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home.js";
+import Layout from "./components/Layout.js";
 
 function App() {
   const demoComments = [
@@ -26,8 +27,10 @@ function App() {
       {/* <DebateDetails /> */}
       <Router>
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/CreateDebate" element={<DebatePost />}></Route>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/CreateDebate" element={<DebatePost />} />
+          </Route>
         </Routes>
       </Router>
     </div>

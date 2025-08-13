@@ -203,6 +203,8 @@ code {
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  height: 50px;
+  width: 150px;
 }
 
 .debate-post button:hover {

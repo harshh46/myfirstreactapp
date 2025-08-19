@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Notification from "./Notification";
 import { useNavigate } from "react-router-dom";
+import CreateADebate from "./CreateADebate";
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const goToCreateDebate = () => {
@@ -16,6 +18,14 @@ const Home = () => {
       </div>
       <div style={{ marginTop: "20px" }}>
         <button onClick={goToCreateDebate}>Create Debate</button>
+      </div>
+      <div style={{ marginTop: "20px" }}>
+        <button onClick={() => setIsModalOpen(true)}>Start a Debate</button>
+
+        <CreateADebate
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </div>
     </div>
   );

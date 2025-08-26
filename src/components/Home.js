@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Notification from "./Notification";
 import { useNavigate } from "react-router-dom";
 import CreateADebate from "./CreateADebate";
+import LeaderboardDebate from "./LeaderboardDebate";
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -26,6 +27,9 @@ const Home = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
+      </div>
+      <div style={{ marginTop: "20px" }}>
+        <LeaderboardDebate />
       </div>
     </div>
   );

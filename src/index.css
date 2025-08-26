@@ -390,3 +390,17 @@ button {
 .bookmark-btn.active {
   background: #cce5ff;
 }
+
+.leader-debate {
+  border: 2px solid black;
+  background-color: rgb(106, 252, 216);
+}
+.leader {
+  display: flex;
+  width: 250px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  background-color: #70bcf2;
+  gap: 10px;
+  border: 2px solid black;
+}

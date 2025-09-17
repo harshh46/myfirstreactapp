@@ -20,6 +20,14 @@ const useAutoSave = (key, data, delay = 1500) => {
 };
 
 const CreateADebate = ({ isOpen, onClose }) => {
+  const post = [
+    { id: 1, topic: "Politics", description: "Democratic nation" },
+    { id: 2, topic: "Tech", description: "AI is modern tech." },
+    { id: 3, topic: "Sports", description: "Practice makes man perfect." },
+    { id: 4, topic: "Politics", description: "Freedom for all." },
+    { id: 5, topic: "Tech", description: "Robots are harmful." },
+    { id: 6, topic: "Sports", description: "Football is well known sport" },
+  ];
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -30,6 +38,58 @@ const CreateADebate = ({ isOpen, onClose }) => {
   const [commentInput, setCommentInput] = useState({});
   const [drafts, setDrafts] = useState([]);
   const CommentEndRef = useRef(null);
+  const [favorites, setFavorites] = useState([]);
+  const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("az"); // "az" or "za"
+  const [processedPosts, setProcessedPosts] = useState(post);
+  const [isApplied, setIsApplied] = useState(false);
+
+  // 3) Add handlers
+  const handleApply = () => {
+    let result = [...post];
+
+    // Filter by topic (case-insensitive)
+    if (filter && filter.trim() !== "") {
+      result = result.filter((p) =>
+        p.topic.toLowerCase().includes(filter.trim().toLowerCase())
+      );
+    }
+
+    // Sort alphabetically by topic
+    if (sort === "az") {
+      result.sort((a, b) => a.topic.localeCompare(b.topic));
+    } else if (sort === "za") {
+      result.sort((a, b) => b.topic.localeCompare(a.topic));
+    }
+
+    setProcessedPosts(result);
+    setIsApplied(true);
+  };
+
+  const handleReset = () => {
+    setFilter("");
+    setSort("az");
+    setProcessedPosts(post);
+    setIsApplied(false);
+  };
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(saved);
+  }, []);
+
+  const toggleFavorite = (post) => {
+    let updated;
+    if (favorites.some((f) => f.id === post.id)) {
+      // remove
+      updated = favorites.filter((f) => f.id !== post.id);
+    } else {
+      // add
+      updated = [...favorites, post];
+    }
+    setFavorites(updated);
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  };
 
   // Combine draft data
   const draftData = {
@@ -83,14 +143,6 @@ const CreateADebate = ({ isOpen, onClose }) => {
   };
 
   // Dummy posts
-  const post = [
-    { id: 1, topic: "Politics", description: "Democratic nation" },
-    { id: 2, topic: "Tech", description: "AI is modern tech." },
-    { id: 3, topic: "Sports", description: "Practice makes man perfect." },
-    { id: 4, topic: "Politics", description: "Freedom for all." },
-    { id: 5, topic: "Tech", description: "Robots are harmful." },
-    { id: 6, topic: "Sports", description: "Football is well known sport" },
-  ];
 
   const handleLike = (id) => setLike((prev) => ({ ...prev, [id]: !prev[id] }));
   const handleBookmark = (id) =>
@@ -194,6 +246,69 @@ const CreateADebate = ({ isOpen, onClose }) => {
               </div>
             ))
           )}
+          {/* Favorites Section */}
+          <div className="favorites-container mt-6">
+            <h3>⭐ My Favorites</h3>
+            {favorites.length === 0 ? (
+              <p className="text-gray-500">No favorites yet.</p>
+            ) : (
+              favorites.map((f) => (
+                <div key={f.id} className="border p-2 my-2 rounded">
+                  <h4 className="font-bold">{f.topic}</h4>
+                  <p>{f.description}</p>
+                  <button onClick={() => toggleFavorite(f)}>❌ Remove</button>
+                </div>
+              ))
+            )}
+          </div>
+          {/* Filter input */}
+          <div style={{ display: "flex", gap: "8px", margin: "12px 0" }}>
+            <input
+              type="text"
+              placeholder="Filter by topic..."
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="border px-2 py-1"
+            />
+
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="border px-2 py-1"
+            >
+              <option value="az">A → Z</option>
+              <option value="za">Z → A</option>
+            </select>
+
+            <button
+              onClick={handleApply}
+              className="px-3 py-1 bg-blue-600 text-white rounded"
+            >
+              Apply
+            </button>
+
+            <button onClick={handleReset} className="px-3 py-1 border rounded">
+              Reset
+            </button>
+          </div>
+
+          {processedPosts.length === 0 ? (
+            <p className="text-gray-500">No posts match the filter.</p>
+          ) : (
+            processedPosts.map((p) => (
+              <div key={p.id} className="post-card border p-3 my-2 rounded">
+                <h3 className="font-bold">{p.topic}</h3>
+                <p>{p.description}</p>
+
+                {/* example favorite toggle (ensure toggleFavorite exists) */}
+                <button onClick={() => toggleFavorite(p)}>
+                  {favorites.some((f) => f.id === p.id)
+                    ? "⭐ Favorited"
+                    : "☆ Favorite"}
+                </button>
+              </div>
+            ))
+          )}
 
           {/* Existing Posts Section */}
           <div className="posts-container mt-6">
@@ -214,10 +329,11 @@ const CreateADebate = ({ isOpen, onClose }) => {
                 </button>
                 <button
                   style={{ paddingLeft: "10px" }}
-                  className={`bookmark-btn ${bookmark[p.id] ? "active" : ""}`}
-                  onClick={() => handleBookmark(p.id)}
+                  onClick={() => toggleFavorite(p)}
                 >
-                  {bookmark[p.id] ? "🔖 Bookmarked" : "📑 Bookmark"}
+                  {favorites.some((f) => f.id === p.id)
+                    ? "⭐ Favorited"
+                    : "☆ Favorite"}
                 </button>
 
                 {/* Comment Box */}
